@@ -1,5 +1,5 @@
-var TweetPlayer = require('./index.js');
-var tweets = require('./Sample.json');
+var TweetPlayer = require('./');
+var tweets = require('./sample.json');
 
 var opts = {
   interval: 500,
