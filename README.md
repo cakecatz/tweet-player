@@ -25,7 +25,7 @@ const interval = 500; /// default is 1000ms
 
 player = new TweetPlayer(tweets);
 
-player.play((tweets) => {
+player.play((tweets, isEnd, seeker) => {
   tweets.forEach((tweet) => {
     console.log(tweet.text);
   });
@@ -40,4 +40,26 @@ play from the time specified
 player.seekTo(1000, (tweets) => {
     // your code here
 });
+```
+
+### pause
+
+pause player
+
+```javascript
+player.play(() => {
+  // callback
+});
+
+// will pause after 3000ms
+setTimeout(() => {
+  player.pause()
+
+  // and restart after 3000ms from paused
+  setTimeout(() => {
+    player.play(() => {
+      /// callback
+    });
+  }, 3000);
+}, 3000);
 ```

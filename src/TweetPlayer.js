@@ -4,6 +4,7 @@ export default class TweetPlayer {
   constructor(tweets = []) {
     this.setTweets(tweets);
     this.seeker = 0;
+    this.isPaused = false;
   }
 
   setTweets(tweets) {
@@ -25,17 +26,28 @@ export default class TweetPlayer {
   play(callback, interval = 1000) {
     this.callback = callback;
     this.interval = interval;
-    this.process = setInterval(() => {
+    this.isEnd = false;
+    this.isPaused = false;
+    const f = () => {
+      if (this.isPaused) {
+        return;
+      }
       const findStart = this._time(this._time(this.startTime).add(this.seeker));
       const findEnd = this._time(this._time(this.startTime).add(this.seeker + this.interval));
-      this.callback(this.getTweets(findStart, findEnd));
+      this.callback(this.getTweets(findStart, findEnd), this.isEnd, this.seeker);
 
-      if (findStart > this.endTime) {
-        clearInterval(this.process);
+      if (findStart <= this.endTime) {
+        this.seeker += this.interval;
+        setTimeout(f.bind(this), this.interval);
+      } else {
+        this.isEnd = true;
       }
+    };
+    f();
+  }
 
-      this.seeker += this.interval;
-    }, this.interval);
+  pause() {
+    this.isPaused = true;
   }
 
   getTweets(findStart, findEnd) {
@@ -46,9 +58,9 @@ export default class TweetPlayer {
     });
   }
 
-  seekTo(seekTime, callback) {
+  seekTo(seekTime, callback, interval = 1000) {
     this.seeker += seekTime;
-    this.play(callback);
+    this.play(callback, interval);
   }
 
   _time(time) {
