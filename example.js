@@ -13,8 +13,18 @@ player = new TweetPlayer(tweets);
 //   });
 // });
 
-player.play((tweets) => {
+var showTweet = (tweets) => {
   tweets.forEach((tweet) => {
-    console.log(tweet.created_at);
+    console.log(tweet.text);
   });
-});
+};
+
+player.play(showTweet);
+
+setTimeout(() => {
+  player.pause();
+  console.log("\n\n############ PAUSE ############\n\n");
+  setTimeout(() => {
+    player.play(showTweet);
+  }, 3000);
+}, 3000);
