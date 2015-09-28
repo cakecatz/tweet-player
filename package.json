@@ -1,0 +1,18 @@
+{
+  "name": "tweet-player",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/TweetPlayer.js",
+  "scripts": {
+    "compile": "babel ./src/tweetPlayer.js -o ./lib/tweetPlayer.js",
+    "prepublish": "npm run compile"
+  },
+  "author": "Ryo Narita",
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.10.6"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23"
+  }
+}
