@@ -1,5 +1,4 @@
 import test from 'ava';
-import assert from 'power-assert';
 import moment from 'moment';
 import Player from './';
 
@@ -24,7 +23,7 @@ time.m_start = moment(time.start, formatString);
 time.m_end = moment(time.end, formatString);
 
 const getTweetsByMs = (ms) => {
-  let findingTime = moment(time.start, formatString).add(ms).utc().format(formatString);
+  const findingTime = moment(time.start, formatString).add(ms).utc().format(formatString);
   return sortedTweets.filter((tweet) => {
     if (tweet.created_at === findingTime) {
       return true;
@@ -32,27 +31,22 @@ const getTweetsByMs = (ms) => {
   });
 };
 
-const showIds = (tweets) => {
-  tweets.forEach((tweet) => {
-  });
-};
-
 const player1 = new Player(tweets);
-test('play', function (t) {
+test('play', (t) => {
   t.plan(3);
-  player1.play((tweets, isEnd, seeker) => {
+  player1.play((_tweets, isEnd, seeker) => {
     if (!isEnd) {
-      t.same(tweets, getTweetsByMs(seeker));
+      t.same(_tweets, getTweetsByMs(seeker));
     }
   }, interval);
 });
 
 const player2 = new Player(tweets);
-test('seekTo', function (t) {
+test('seekTo', (t) => {
   t.plan(2);
-  player2.seekTo(1000, (tweets, isEnd, seeker) => {
+  player2.seekTo(1000, (_tweets, isEnd, seeker) => {
     if (!isEnd) {
-      t.same(tweets, getTweetsByMs(seeker));
+      t.same(_tweets, getTweetsByMs(seeker));
     }
   }, interval);
 });
